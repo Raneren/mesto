@@ -1,0 +1,5 @@
+.profile_info {
+  display: grid;
+  grid-template-columns: max-content min-content;
+  gap: 16px;
+}
