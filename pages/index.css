@@ -3,27 +3,27 @@
 @import url(../blocks/page/page.css);
 
 @import url(../blocks/header/header.css);
-@import url(../blocks/header/_logo/header_logo.css);
+@import url(../blocks/header/__logo/header__logo.css);
 
 @import url(../blocks/content/content.css);
 
 @import url(../blocks/button/button.css);
 
 @import url(../blocks/profile/profile.css);
-@import url(../blocks/profile/_avatar/profile_avatar.css);
-@import url(../blocks/profile/_info/profile_info.css);
-@import url(../blocks/profile/_name/profile_name.css);
-@import url(../blocks/button/__type/button__type_edit.css);
-@import url(../blocks/profile/_status/profile_status.css);
-@import url(../blocks/button/__type/button__type_add.css);
+@import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/button/_type/button_type__edit.css);
+@import url(../blocks/profile/__status/profile__status.css);
+@import url(../blocks/button/_type/button_type__add.css);
 
 @import url(../blocks/elements/elements.css);
 
 @import url(../blocks/element/element.css);
-@import url(../blocks/element/_photo/element_photo.css);
-@import url(../blocks/element/_info/element_info.css);
-@import url(../blocks/element/_title/element_title.css);
-/* Добавить стили для лайка */
+@import url(../blocks/element/__photo/element__photo.css);
+@import url(../blocks/element/__info/element__info.css);
+@import url(../blocks/element/__title/element__title.css);
+@import url(../blocks/button/_type/button_type__like.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

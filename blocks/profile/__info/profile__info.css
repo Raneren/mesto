@@ -1,4 +1,4 @@
-.profile_info {
+.profile__info {
   display: grid;
   grid-template-columns: max-content min-content;
   row-gap: 16px;
