@@ -16,3 +16,10 @@
 @import url(../blocks/button/__type/button__type_edit.css);
 @import url(../blocks/profile/_status/profile_status.css);
 @import url(../blocks/button/__type/button__type_add.css);
+
+@import url(../blocks/elements/elements.css);
+
+@import url(../blocks/element/element.css);
+@import url(../blocks/element/_photo/element_photo.css);
+@import url(../blocks/element/_info/element_info.css);
+@import url(../blocks/element/_title/element_title.css);
