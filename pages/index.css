@@ -23,3 +23,7 @@
 @import url(../blocks/element/_photo/element_photo.css);
 @import url(../blocks/element/_info/element_info.css);
 @import url(../blocks/element/_title/element_title.css);
+/* Добавить стили для лайка */
+
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copyright/footer__copyright.css);
