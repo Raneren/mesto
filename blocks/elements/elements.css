@@ -6,3 +6,8 @@
   justify-content: center;
   gap: 20px 17px;
 }
+@media screen and (max-width: 425px) {
+  .elements {
+    margin-top: 36px;
+  }
+}

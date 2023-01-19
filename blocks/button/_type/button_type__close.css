@@ -2,7 +2,15 @@
     position: absolute;
     width: 32px;
     height: 32px;
-    background: url(../../../images/button-close.svg);
+    background: url(../../../images/button-close.svg) no-repeat center;
     top: -40px;
     right: -40px;
+}
+@media screen and (max-width:520px) {
+    .button_type__close {
+        width: 20px;
+        height: 20px;
+        top: -36px;
+        right: 0;
+    }
 }

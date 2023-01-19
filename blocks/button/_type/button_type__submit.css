@@ -1,17 +1,23 @@
 .button_type__submit {
-height: 50px;
-background: #000;
-border: none;
-padding: 0;
-border-radius: 2px;
-color: #fff;
-font-family: "Inter", "Arial", sans-serif;
-font-style: normal;
-font-weight: 400;
-font-size: 18px;
-line-height: 22px;
-text-align: center;
+  height: 50px;
+  background: #000;
+  border: none;
+  padding: 0;
+  border-radius: 2px;
+  color: #fff;
+  font-family: "Inter", "Arial", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
 }
 .button_type__submit:hover {
-    opacity: .8;
+  opacity: 0.8;
+}
+@media screen and (max-width: 425px) {
+  .button_type__submit {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }
