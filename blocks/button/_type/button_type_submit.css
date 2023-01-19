@@ -1,4 +1,4 @@
-.button_type__submit {
+.button_type_submit {
   height: 50px;
   background: #000;
   border: none;
@@ -12,11 +12,11 @@
   line-height: 22px;
   text-align: center;
 }
-.button_type__submit:hover {
+.button_type_submit:hover {
   opacity: 0.8;
 }
 @media screen and (max-width: 425px) {
-  .button_type__submit {
+  .button_type_submit {
     font-size: 14px;
     line-height: 17px;
   }

@@ -1,4 +1,4 @@
-.button_type__add {
+.button_type_add {
     box-sizing: border-box;
     border: 2px solid #fff;
     border-radius: 2px;
@@ -8,13 +8,13 @@
     justify-self: flex-end;
 }
 @media screen and (max-width: 700px) {
-    .button_type__add {
+    .button_type_add {
         justify-self: center;
         background-size: 16px;
     }
 }
 @media screen and (max-width: 425px) {
-    .button_type__add {
+    .button_type_add {
         width: 100%;
     }
 }
