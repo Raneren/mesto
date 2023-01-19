@@ -6,6 +6,12 @@
 @media screen and (max-width: 700px){
   .profile__info{
     margin-bottom: 36px;
-    gap: 14px 10px;
+    gap: 10px 14px;
   }
+}
+@media screen and (max-width: 425px){
+  .profile__info{
+    margin-bottom: 36px;
+    row-gap: 0;
+}
 }

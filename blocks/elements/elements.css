@@ -3,6 +3,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, 282px);
+  grid-auto-rows: 362px;
   justify-content: center;
   gap: 20px 17px;
 }
