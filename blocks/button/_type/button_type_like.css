@@ -1,6 +1,6 @@
 
 .button_type_like {
     width: 22px;
-    padding: 30px;
+    padding: 31px 30px 30px;
     background: url(../../../images/button-like.svg) no-repeat center;
 }
