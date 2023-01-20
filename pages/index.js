@@ -1,7 +1,6 @@
 let editButton = document.querySelector(".button_type_edit");
 let closeButton = document.querySelector(".button_type_close");
 let submitButton = document.querySelector(".button_type_submit");
-let likeButton = document.querySelector("button_type_like");
 let popup = document.querySelector(".popup");
 let editForm = document.querySelector(".edit-form");
 let nameInput = document.querySelector(".edit-form__input_type_name");
