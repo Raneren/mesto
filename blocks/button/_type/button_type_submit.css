@@ -11,12 +11,14 @@
   font-size: 18px;
   line-height: 22px;
   text-align: center;
+  margin-top:48px;
 }
 .button_type_submit:hover {
   opacity: 0.8;
 }
 @media screen and (max-width: 425px) {
   .button_type_submit {
+    margin-top: 45px;
     height: 46px;
     font-size: 14px;
     line-height: 17px;
