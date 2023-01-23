@@ -2,7 +2,6 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 880px;
-  height: 74px;
   border-bottom: 1px solid rgba(84, 84, 84, 0.7);
   margin: 45px 0 0;
 }
@@ -15,6 +14,5 @@
   .header {
     margin: 28px 0 0;
     padding-left: 27px;
-    height: 56px;
   }
 }
