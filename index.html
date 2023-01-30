@@ -89,7 +89,7 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2023 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_type_edit-profile-info">
       <div class="popup__container">
         <form class="edit-form" name="edit-form" method="post">
           <h2 class="edit-form__title">Редактировать профиль</h2>
@@ -105,7 +105,26 @@
             Сохранить
           </button>
         </form>
-        <button type="button" class="button button_type_close"></button>
+        <button type="button" class="button button_type_close button_type_close-popup-edit"></button>
+      </div>
+    </div>
+    <div class="popup popup_type_add-place-card">
+      <div class="popup__container">
+        <form class="edit-form" name="edit-form" method="post">
+          <h2 class="edit-form__title">Новое место</h2>
+          <input
+            class="edit-form__input edit-form__input_type_place"
+            type="text" placeholder="Название" name="input-place"
+          />
+          <input
+            class="edit-form__input edit-form__input_type_link"
+            type="text" placeholder="Ссылка на картинку" name="input-link"
+          />
+          <button type="submit" class="button button_type_submit">
+            Сохранить
+          </button>
+        </form>
+        <button type="button" class="button button_type_close button_type_close-popup-add"></button>
       </div>
     </div>
     <script src="./scripts/index.js"></script>
