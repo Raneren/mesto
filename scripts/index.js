@@ -1,6 +1,3 @@
-const editButton = document.querySelector(".button_type_edit");
-const addButton = document.querySelector(".button_type_add");
-const closeButtons = document.querySelectorAll(".button_type_close");
 const initialCards = [
   {
     name: "Архыз",
@@ -27,8 +24,25 @@ const initialCards = [
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
   },
 ];
+
 const cardTemplate = document.querySelector("#element-template").content;
 const cards = document.querySelector(".elements");
+
+initialCards.forEach((item) => {
+  const card = cardTemplate.querySelector(".element").cloneNode(true);
+  let cardName = card.querySelector(".element__title");
+  let cardLink = card.querySelector(".element__photo");
+  cardName.textContent = item.name;
+  cardLink.style.backgroundImage = `url(${item.link})`;
+  cards.append(card);
+});
+
+const editButton = document.querySelector(".button_type_edit");
+const addButton = document.querySelector(".button_type_add");
+const closeButtons = document.querySelectorAll(".button_type_close");
+const likeButtons = document.querySelectorAll(".button_type_like");
+const deleteButtons = document.querySelectorAll(".button_type_delete");
+
 let cardNameInput = document.querySelector(".edit-form__input_type_place");
 let cardLinkInput = document.querySelector(".edit-form__input_type_link");
 
@@ -42,15 +56,6 @@ let jobInput = document.querySelector(".edit-form__input_type_job");
 let profileName = document.querySelector(".profile__name");
 let profileJob = document.querySelector(".profile__job");
 
-initialCards.forEach((item) => {
-  const card = cardTemplate.querySelector(".element").cloneNode(true);
-  let cardName = card.querySelector(".element__title");
-  let cardLink = card.querySelector(".element__photo");
-  cardName.textContent = item.name;
-  cardLink.style.backgroundImage = `url(${item.link})`;
-  cards.append(card);
-});
-
 function openPopupEdit() {
   popupEdit.classList.add("popup_opened");
   nameInput.value = profileName.textContent;
@@ -61,6 +66,8 @@ editButton.addEventListener("click", openPopupEdit);
 
 function openPopupAdd() {
   popupAdd.classList.add("popup_opened");
+  cardNameInput.value = "";
+  cardLinkInput.value = "";
 }
 
 addButton.addEventListener("click", openPopupAdd);
@@ -87,6 +94,18 @@ function handleFormSubmit(evt) {
     let cardLink = card.querySelector(".element__photo");
     cardName.textContent = cardNameInput.value;
     cardLink.style.backgroundImage = `url(${cardLinkInput.value})`;
+
+    card.querySelector(".button_type_like").addEventListener("click", (evt) => {
+      evt.target.classList.toggle("button_type_like_active");
+    });
+
+    card
+      .querySelector(".button_type_delete")
+      .addEventListener("click", (evt) => {
+        let card = evt.target.closest(".element");
+        card.remove();
+      });
+
     cards.prepend(card);
   }
   closePopup();
@@ -94,4 +113,17 @@ function handleFormSubmit(evt) {
 
 editForms.forEach((form) => {
   form.addEventListener("submit", handleFormSubmit);
+});
+
+likeButtons.forEach((likeButton) => {
+  likeButton.addEventListener("click", (evt) => {
+    evt.target.classList.toggle("button_type_like_active");
+  });
+});
+
+deleteButtons.forEach((deleteButton) => {
+  deleteButton.addEventListener("click", (evt) => {
+    const card = evt.target.closest(".element");
+    card.remove();
+  });
 });
