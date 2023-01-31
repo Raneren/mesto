@@ -6,6 +6,36 @@ const closeButtonPopupEdit = document.querySelector(
 const closeButtonPopupAdd = document.querySelector(
   ".button_type_close-popup-add"
 );
+const initialCards = [
+  {
+    name: "Архыз",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+  },
+  {
+    name: "Челябинская область",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
+  },
+  {
+    name: "Иваново",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
+  },
+  {
+    name: "Камчатка",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+  },
+  {
+    name: "Холмогорский район",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
+  },
+  {
+    name: "Байкал",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+  },
+];
+const cardTemplate = document.querySelector("#element-template").content;
+const cards = document.querySelector(".elements");
+let cardNameInput = document.querySelector(".edit-form__input_type_place");
+let cardLinkInput = document.querySelector(".edit-form__input_type_link");
 
 const popups = document.querySelectorAll(".popup");
 const popupEdit = document.querySelector(".popup_type_edit-profile-info");
@@ -16,6 +46,18 @@ let nameInput = document.querySelector(".edit-form__input_type_name");
 let jobInput = document.querySelector(".edit-form__input_type_job");
 let profileName = document.querySelector(".profile__name");
 let profileJob = document.querySelector(".profile__job");
+
+function addInitilCards() {
+  initialCards.forEach((item) => {
+    const card = cardTemplate.querySelector(".element").cloneNode(true);
+    let cardName = card.querySelector(".element__title");
+    let cardLink = card.querySelector(".element__photo");
+    cardName.textContent = item.name;
+    cardLink.style.backgroundImage = `url(${item.link})`;
+    cards.prepend(card);
+  });
+}
+addInitilCards();
 
 function openPopupEdit() {
   popupEdit.classList.add("popup_opened");
