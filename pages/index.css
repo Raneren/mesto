@@ -32,7 +32,10 @@
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 
 @import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_type/popup_type_photo-viewing.css);
 @import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__photo/popup__photo.css);
+@import url(../blocks/popup/__photo-title/popup__photo-title.css);
 @import url(../blocks/edit-form/edit-form.css);
 @import url(../blocks/edit-form/__title/edit-form__title.css);
 @import url(../blocks/edit-form/__input/edit-form__input.css);
