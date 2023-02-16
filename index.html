@@ -32,20 +32,32 @@
     </footer>
     <div class="popup popup_type_edit-profile-info">
       <div class="popup__container">
-        <form class="edit-form" name="edit-form" method="post">
-          <h2 class="edit-form__title">Редактировать профиль</h2>
-          <input
-            class="edit-form__input edit-form__input_type_name"
-            type="text"
-            placeholder="Имя"
-            name="input-name"
-          />
-          <input
-            class="edit-form__input edit-form__input_type_job"
-            type="text"
-            placeholder="О себе"
-            name="input-job"
-          />
+        <form class="form" name="edit_form" method="post" novalidate>
+          <h2 class="form__title">Редактировать профиль</h2>
+          <div class="form__field">
+            <input
+              class="form__input form__input_type_name"
+              type="text"
+              placeholder="Имя"
+              name="name-input"
+              minlength="2"
+              maxlength="40"
+              required
+            />
+            <span class="form__input-error name-input-error"></span>
+          </div>
+          <fieldset class="form__field">
+            <input
+              class="form__input form__input_type_job"
+              type="text"
+              placeholder="О себе"
+              name="job-input"
+              minlength="2"
+              maxlength="200"
+              required
+            />
+            <span class="form__input-error job-input-error"></span>
+          </fieldset>
           <button type="submit" class="button button_type_submit">
             Сохранить
           </button>
@@ -55,20 +67,30 @@
     </div>
     <div class="popup popup_type_add-place-card">
       <div class="popup__container">
-        <form class="edit-form" name="add-form" method="post">
-          <h2 class="edit-form__title">Новое место</h2>
-          <input
-            class="edit-form__input edit-form__input_type_place"
-            type="text"
-            placeholder="Название"
-            name="input-place"
-          />
-          <input
-            class="edit-form__input edit-form__input_type_link"
-            type="text"
-            placeholder="Ссылка на картинку"
-            name="input-link"
-          />
+        <form class="form" name="add_form" method="post" novalidate>
+          <h2 class="form__title">Новое место</h2>
+          <fieldset class="form__field">
+            <input
+              class="form__input form__input_type_place"
+              type="text"
+              placeholder="Название"
+              name="place-input"
+              minlength="2"
+              maxlength="30"
+              required
+            />
+            <span class="form__input-error place-input-error"></span>
+          </fieldset>
+          <fieldset class="form__field">
+            <input
+              class="form__input form__input_type_link"
+              type="url"
+              placeholder="Ссылка на картинку"
+              name="link-input"
+              required
+            />
+            <span class="form__input-error link-input-error"></span>
+          </fieldset>
           <button type="submit" class="button button_type_submit">
             Сохранить
           </button>
@@ -77,7 +99,7 @@
       </div>
     </div>
     <div class="popup popup_type_photo-viewing">
-      <div class="popup__photo" style="background-image: url('');">
+      <div class="popup__photo" style="background-image: url('')">
         <button type="button" class="button button_type_close"></button>
         <h2 class="popup__photo-title"></h2>
       </div>

@@ -1,4 +1,4 @@
-.edit-form {
+.form {
     width: 100%;
     box-sizing: border-box;
     background: #fff;
@@ -9,7 +9,7 @@
     padding: 34px 36px 37px;
 }
 @media screen and (max-width:425px) {
-    .edit-form {
+    .form {
         padding: 25px 22px;
     }
     

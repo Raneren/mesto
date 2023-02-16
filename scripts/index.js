@@ -29,7 +29,7 @@ const cardTemplate = document.querySelector("#element-template").content;
 const cards = document.querySelector(".elements");
 //Добавляем 6 карточек из массива
 initialCards.forEach((item) => {
-  const card =  createNewCard(item.name, item.link);
+  const card = createNewCard(item.name, item.link);
   renderNewCard(card, cards);
 });
 
@@ -37,8 +37,8 @@ const popupEditButton = document.querySelector(".button_type_edit");
 const popupAddButton = document.querySelector(".button_type_add");
 const popupCloseButtons = document.querySelectorAll(".button_type_close");
 
-const cardNameInput = document.querySelector(".edit-form__input_type_place");
-const cardLinkInput = document.querySelector(".edit-form__input_type_link");
+const cardNameInput = document.querySelector(".form__input_type_place");
+const cardLinkInput = document.querySelector(".form__input_type_link");
 
 const popupEdit = document.querySelector(".popup_type_edit-profile-info");
 const popupAdd = document.querySelector(".popup_type_add-place-card");
@@ -47,13 +47,71 @@ const popupPhotoView = document.querySelector(".popup_type_photo-viewing");
 const photoInPopup = popupPhotoView.querySelector(".popup__photo");
 const photoTitleInPopup = popupPhotoView.querySelector(".popup__photo-title");
 
-const popupEditForms = document.querySelectorAll(".edit-form");
+const popupEditForm = document.forms.edit_form;
+const popupAddForm = document.forms.add_form;
 
-const nameInput = document.querySelector(".edit-form__input_type_name");
-const jobInput = document.querySelector(".edit-form__input_type_job");
+const nameInput = document.querySelector(".form__input_type_name");
+const jobInput = document.querySelector(".form__input_type_job");
 const profileName = document.querySelector(".profile__name");
 const profileJob = document.querySelector(".profile__job");
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Функция вывода сообщения об ошибке
+function showInputError(formElement, inputElement, errorMessage) {
+  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+  inputElement.classList.add("form__input_type_error");
+  errorElement.textContent = errorMessage;
+}
+//Функция скрытия сообщения об ошибке
+function hideInputError(formElement, inputElement) {
+  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+  inputElement.classList.remove("form__input_type_error");
+  errorElement.textContent = "";
+}
+//Функция проверки на валидность строки ввода для отображения/скрытия ошибки
+function checkInputValidity(formElement, inputElement) {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+}
+//Функция установки слушатей на все поля формы
+function setEventListeners(formElement) {
+  const inputList = Array.from(formElement.querySelectorAll(".form__input"));
+  const buttonElement = formElement.querySelector(".button_type_submit");
+  toggleSubmitButton(inputList, buttonElement);
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener("input", function () {
+      checkInputValidity(formElement, inputElement);
+      toggleSubmitButton(inputList, buttonElement);
+    });
+    inputElement
+      .closest(".popup")
+      .querySelector(".button_type_close")
+      .addEventListener("click", function () {
+        hideInputError(formElement, inputElement);
+      });
+  });
+}
+//Функция проверки на валидность строки ввода
+function hasInvalidInput(inputList) {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+}
+//Функция переключения активного состояния кнопки отправки
+function toggleSubmitButton(inputList, buttonElement) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add("button_type_submit_disabled");
+  } else {
+    buttonElement.classList.remove("button_type_submit_disabled");
+  }
+}
+//Функция активации валидации формы
+function enableValidation(formElement) {
+  setEventListeners(formElement);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Функция открытия поп-апа
 function openPopup(popup) {
   popup.classList.add("popup_opened");
@@ -74,6 +132,7 @@ function openPopupEdit() {
   openPopup(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+  enableValidation(popupEditForm);
 }
 
 popupEditButton.addEventListener("click", openPopupEdit);
@@ -82,6 +141,7 @@ function openPopupAdd() {
   openPopup(popupAdd);
   cardNameInput.value = "";
   cardLinkInput.value = "";
+  enableValidation(popupAddForm);
 }
 
 popupAddButton.addEventListener("click", openPopupAdd);
@@ -95,7 +155,7 @@ function openPopupPhotoView(item) {
 }
 //Функция создания новой карточки
 function createNewCard(name, link) {
-  newCard = cardTemplate.querySelector(".element").cloneNode(true);
+  const newCard = cardTemplate.querySelector(".element").cloneNode(true);
   const cardName = newCard.querySelector(".element__title");
   const cardPhoto = newCard.querySelector(".element__photo");
   cardName.textContent = name;
@@ -145,11 +205,5 @@ function handleFormSubmitForAddNewCard(evt) {
   closePopup(popupAdd);
 }
 
-popupEditForms.forEach((form) => {
-  if (form.name === "edit-form") {
-    form.addEventListener("submit", handleFormSubmitForEditProfile);
-  }
-  if (form.name === "add-form") {
-    form.addEventListener("submit", handleFormSubmitForAddNewCard);
-  }
-});
+popupEditForm.addEventListener("submit", handleFormSubmitForEditProfile);
+popupAddForm.addEventListener("submit", handleFormSubmitForAddNewCard);
