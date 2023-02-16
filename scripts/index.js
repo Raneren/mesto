@@ -40,6 +40,7 @@ const popupCloseButtons = document.querySelectorAll(".button_type_close");
 const cardNameInput = document.querySelector(".form__input_type_place");
 const cardLinkInput = document.querySelector(".form__input_type_link");
 
+const popups = document.querySelectorAll(".popup");
 const popupEdit = document.querySelector(".popup_type_edit-profile-info");
 const popupAdd = document.querySelector(".popup_type_add-place-card");
 const popupPhotoView = document.querySelector(".popup_type_photo-viewing");
@@ -54,7 +55,7 @@ const nameInput = document.querySelector(".form__input_type_name");
 const jobInput = document.querySelector(".form__input_type_job");
 const profileName = document.querySelector(".profile__name");
 const profileJob = document.querySelector(".profile__job");
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //Функция вывода сообщения об ошибке
 function showInputError(formElement, inputElement, errorMessage) {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
@@ -81,16 +82,14 @@ function setEventListeners(formElement) {
   const buttonElement = formElement.querySelector(".button_type_submit");
   toggleSubmitButton(inputList, buttonElement);
   inputList.forEach((inputElement) => {
+    //ниже убираем все ошибки при открытии поп-апа
+    if (inputElement.closest(".popup").classList.contains("popup_opened")){
+      hideInputError(formElement, inputElement);
+    }
     inputElement.addEventListener("input", function () {
       checkInputValidity(formElement, inputElement);
       toggleSubmitButton(inputList, buttonElement);
     });
-    inputElement
-      .closest(".popup")
-      .querySelector(".button_type_close")
-      .addEventListener("click", function () {
-        hideInputError(formElement, inputElement);
-      });
   });
 }
 //Функция проверки на валидность строки ввода
@@ -111,7 +110,6 @@ function toggleSubmitButton(inputList, buttonElement) {
 function enableValidation(formElement) {
   setEventListeners(formElement);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Функция открытия поп-апа
 function openPopup(popup) {
   popup.classList.add("popup_opened");
@@ -126,7 +124,13 @@ popupCloseButtons.forEach((closeButton) => {
     closePopup(evt.target.closest(".popup"));
   });
 });
-
+document.addEventListener("keydown", (evt) => {
+ popups.forEach((popup) => {
+   if (evt.key === "Escape"&&popup.classList.contains("popup_opened")) {
+    closePopup(popup);
+   }
+ });
+});
 //Функция открытия поп-апа редактирования профиля
 function openPopupEdit() {
   openPopup(popupEdit);
