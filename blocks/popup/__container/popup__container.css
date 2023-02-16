@@ -3,6 +3,7 @@
   width: 100%;
   max-width: 430px;
   min-width: 282px;
+  cursor: default;
 }
 @media screen and (max-width:468px) {
   .popup__container {

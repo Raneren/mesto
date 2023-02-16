@@ -83,7 +83,7 @@ function setEventListeners(formElement) {
   toggleSubmitButton(inputList, buttonElement);
   inputList.forEach((inputElement) => {
     //ниже убираем все ошибки при открытии поп-апа
-    if (inputElement.closest(".popup").classList.contains("popup_opened")){
+    if (inputElement.closest(".popup").classList.contains("popup_opened")) {
       hideInputError(formElement, inputElement);
     }
     inputElement.addEventListener("input", function () {
@@ -119,17 +119,24 @@ function openPopup(popup) {
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
 }
-popupCloseButtons.forEach((closeButton) => {
-  closeButton.addEventListener("click", (evt) => {
-    closePopup(evt.target.closest(".popup"));
+//Закрывание кликом
+popups.forEach((popup) => {
+  popup.addEventListener("mousedown", (evt) => {
+    if (
+      evt.target.classList.contains("button_type_close") ||
+      evt.target.classList.contains("popup")
+    ) {
+      closePopup(evt.target.closest(".popup"));
+    }
   });
 });
+//Закрывание кнопкой Esc
 document.addEventListener("keydown", (evt) => {
- popups.forEach((popup) => {
-   if (evt.key === "Escape"&&popup.classList.contains("popup_opened")) {
-    closePopup(popup);
-   }
- });
+  popups.forEach((popup) => {
+    if (evt.key === "Escape" && popup.classList.contains("popup_opened")) {
+      closePopup(popup);
+    }
+  });
 });
 //Функция открытия поп-апа редактирования профиля
 function openPopupEdit() {
