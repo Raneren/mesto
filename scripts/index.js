@@ -56,68 +56,23 @@ const jobInput = document.querySelector(".form__input_type_job");
 const profileName = document.querySelector(".profile__name");
 const profileJob = document.querySelector(".profile__job");
 
-//Функция вывода сообщения об ошибке
-function showInputError(formElement, inputElement, errorMessage) {
-  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
-  inputElement.classList.add("form__input_type_error");
-  errorElement.textContent = errorMessage;
-}
-//Функция скрытия сообщения об ошибке
-function hideInputError(formElement, inputElement) {
-  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
-  inputElement.classList.remove("form__input_type_error");
-  errorElement.textContent = "";
-}
-//Функция проверки на валидность строки ввода для отображения/скрытия ошибки
-function checkInputValidity(formElement, inputElement) {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
-  }
-}
-//Функция установки слушатей на все поля формы
-function setEventListeners(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll(".form__input"));
-  const buttonElement = formElement.querySelector(".button_type_submit");
-  toggleSubmitButton(inputList, buttonElement);
-  inputList.forEach((inputElement) => {
-    //ниже убираем все ошибки при открытии поп-апа
-    if (inputElement.closest(".popup").classList.contains("popup_opened")) {
-      hideInputError(formElement, inputElement);
-    }
-    inputElement.addEventListener("input", function () {
-      checkInputValidity(formElement, inputElement);
-      toggleSubmitButton(inputList, buttonElement);
-    });
-  });
-}
-//Функция проверки на валидность строки ввода
-function hasInvalidInput(inputList) {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  });
-}
-//Функция переключения активного состояния кнопки отправки
-function toggleSubmitButton(inputList, buttonElement) {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add("button_type_submit_disabled");
-  } else {
-    buttonElement.classList.remove("button_type_submit_disabled");
-  }
-}
-//Функция активации валидации формы
-function enableValidation(formElement) {
-  setEventListeners(formElement);
-}
 //Функция открытия поп-апа
 function openPopup(popup) {
   popup.classList.add("popup_opened");
-}
+  enableValidation({
+    formSelector: ".form",
+    inputSelector: ".form__input",
+    submitButtonSelector: ".button_type_submit",
+    inactiveButtonClass: "button_type_submit_disabled",
+    inputErrorClass: ".form__input_type_error",
+  });
 
+  document.addEventListener("keydown", closeOnEscButtton);
+}
 //Функция закрытия поп-апа
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", closeOnEscButtton);
 }
 //Закрывание кликом
 popups.forEach((popup) => {
@@ -130,29 +85,27 @@ popups.forEach((popup) => {
     }
   });
 });
-//Закрывание кнопкой Esc
-document.addEventListener("keydown", (evt) => {
+//Функция на закрывание попапа кнопкой Esc
+function closeOnEscButtton(evt) {
   popups.forEach((popup) => {
-    if (evt.key === "Escape" && popup.classList.contains("popup_opened")) {
+    if (evt.key === "Escape") {
       closePopup(popup);
     }
   });
-});
+}
 //Функция открытия поп-апа редактирования профиля
 function openPopupEdit() {
-  openPopup(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  enableValidation(popupEditForm);
+  openPopup(popupEdit);
 }
 
 popupEditButton.addEventListener("click", openPopupEdit);
 //Функция открытия поп-апа добавления карточки
 function openPopupAdd() {
-  openPopup(popupAdd);
   cardNameInput.value = "";
   cardLinkInput.value = "";
-  enableValidation(popupAddForm);
+  openPopup(popupAdd);
 }
 
 popupAddButton.addEventListener("click", openPopupAdd);

@@ -6,6 +6,9 @@
   background-size: contain;
   margin-top: 6px;
 }
+.button_type_edit:focus{
+  outline: none;
+}
 @media screen and (max-width: 425px) {
   .button_type_edit {
     width: 18px;
