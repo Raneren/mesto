@@ -1,36 +1,18 @@
-const initialCards = [
-  {
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
+//Вызов функции проверки на валидацию
+enableValidation({
+  formSelector: ".form",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".button_type_submit",
+  inactiveButtonClass: "button_type_submit_disabled",
+  inputErrorClass: "form__input_type_error",
+});
 
 const cardTemplate = document.querySelector("#element-template").content;
-const cards = document.querySelector(".elements");
+const cardsContainer = document.querySelector(".elements");
 //Добавляем 6 карточек из массива
 initialCards.forEach((item) => {
   const card = createNewCard(item.name, item.link);
-  renderNewCard(card, cards);
+  renderNewCard(card, cardsContainer);
 });
 
 const popupEditButton = document.querySelector(".button_type_edit");
@@ -59,14 +41,6 @@ const profileJob = document.querySelector(".profile__job");
 //Функция открытия поп-апа
 function openPopup(popup) {
   popup.classList.add("popup_opened");
-  enableValidation({
-    formSelector: ".form",
-    inputSelector: ".form__input",
-    submitButtonSelector: ".button_type_submit",
-    inactiveButtonClass: "button_type_submit_disabled",
-    inputErrorClass: ".form__input_type_error",
-  });
-
   document.addEventListener("keydown", closeOnEscButtton);
 }
 //Функция закрытия поп-апа
@@ -74,38 +48,39 @@ function closePopup(popup) {
   popup.classList.remove("popup_opened");
   document.removeEventListener("keydown", closeOnEscButtton);
 }
-//Закрывание кликом
+//Функция на закрывание попапа по клику на кнопку или оверлей
+function closeOnClick(evt) {
+  if (
+    evt.target.classList.contains("button_type_close") ||
+    evt.target.classList.contains("popup_opened")
+  ) {
+    closePopup(evt.target.closest(".popup"));
+  }
+}
+
 popups.forEach((popup) => {
-  popup.addEventListener("mousedown", (evt) => {
-    if (
-      evt.target.classList.contains("button_type_close") ||
-      evt.target.classList.contains("popup")
-    ) {
-      closePopup(evt.target.closest(".popup"));
-    }
-  });
+  popup.addEventListener("mousedown", closeOnClick);
 });
 //Функция на закрывание попапа кнопкой Esc
 function closeOnEscButtton(evt) {
-  popups.forEach((popup) => {
-    if (evt.key === "Escape") {
-      closePopup(popup);
-    }
-  });
+  if (evt.key === "Escape") {
+    closePopup(document.querySelector(".popup_opened"));
+  }
 }
 //Функция открытия поп-апа редактирования профиля
 function openPopupEdit() {
+  openPopup(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  openPopup(popupEdit);
+  skipErrorMessages(popupEditForm, { inputSelector: ".form__input", inputErrorClass: "form__input_type_error" });
 }
 
 popupEditButton.addEventListener("click", openPopupEdit);
 //Функция открытия поп-апа добавления карточки
 function openPopupAdd() {
-  cardNameInput.value = "";
-  cardLinkInput.value = "";
   openPopup(popupAdd);
+  popupAddForm.reset();
+  skipErrorMessages(popupAddForm, { inputSelector: ".form__input", inputErrorClass: "form__input_type_error" });
 }
 
 popupAddButton.addEventListener("click", openPopupAdd);
@@ -165,7 +140,7 @@ function handleFormSubmitForEditProfile(evt) {
 function handleFormSubmitForAddNewCard(evt) {
   evt.preventDefault();
   const card = createNewCard(cardNameInput.value, cardLinkInput.value);
-  renderNewCard(card, cards);
+  renderNewCard(card, cardsContainer);
   closePopup(popupAdd);
 }
 
