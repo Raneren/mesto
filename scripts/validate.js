@@ -49,10 +49,10 @@ function setEventListeners(
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   const buttonElement = formElement.querySelector(submitButtonSelector);
   formElement.addEventListener("reset", function () {
-    buttonElement.classList.add(inactiveButtonClass);
-});
+    disableSubmitButton(buttonElement, { inactiveButtonClass });
+  });
   formElement.addEventListener("submit", function () {
-      buttonElement.classList.add(inactiveButtonClass);
+    disableSubmitButton(buttonElement, { inactiveButtonClass });
   });
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", function () {
@@ -72,12 +72,21 @@ function hasInvalidInput(inputList) {
 //Функция переключения активного состояния кнопки отправки
 function toggleSubmitButton(inputList, buttonElement, { inactiveButtonClass }) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(inactiveButtonClass);
+    disableSubmitButton(buttonElement, { inactiveButtonClass });
   } else {
-    buttonElement.classList.remove(inactiveButtonClass);
+    activeSubmitButton(buttonElement, { inactiveButtonClass });
   }
 }
-
+//Функция отключения кнопки сабмита
+function disableSubmitButton(buttonElement, { inactiveButtonClass }) {
+  buttonElement.classList.add(inactiveButtonClass);
+  buttonElement.disabled = true;
+}
+//Функция включения кнопки сабмита
+function activeSubmitButton(buttonElement, { inactiveButtonClass }) {
+  buttonElement.classList.remove(inactiveButtonClass);
+  buttonElement.disabled = false;
+}
 //Функция активации валидации формы
 function enableValidation({
   formSelector,
