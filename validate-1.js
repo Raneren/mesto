@@ -1,15 +1,15 @@
 //Создаём класс валидации формы
-export class FormValidator {
-  constructor(object, formElement) {
-    this._formElement = formElement;
+class FormValidator {
+  constructor(object) {
+    this._formSelector = object.formSelector;
     this._inputSelector = object.inputSelector;
     this._submitButtonSelector = object.submitButtonSelector;
     this._inactiveButtonClass = object.inactiveButtonClass;
     this._inputErrorClass = object.inputErrorClass;
   }
   //Метод вывода сообщения об ошибке
-  _showInputError(inputElement, errorMessage) {
-    const errorElement = this._formElement.querySelector(
+  _showInputError(formElement, inputElement, errorMessage) {
+    const errorElement = formElement.querySelector(
       `.${inputElement.name}-error`
     );
     inputElement.classList.add(this._inputErrorClass);
@@ -17,8 +17,8 @@ export class FormValidator {
   }
 
   //Метод скрытия сообщения об ошибке
-  _hideInputError(inputElement) {
-    const errorElement = this._formElement.querySelector(
+  _hideInputError(formElement, inputElement) {
+    const errorElement = formElement.querySelector(
       `.${inputElement.name}-error`
     );
     inputElement.classList.remove(this._inputErrorClass);
@@ -26,37 +26,44 @@ export class FormValidator {
   }
 
   //Метод сброса сообщений об ошибке внутри формы
-  skipErrorMessages() {
-    this._formElement
-      .querySelectorAll(this._inputSelector)
-      .forEach((inputElement) => {
-        this._hideInputError(inputElement);
-      });
+  _skipErrorMessages(formElement) {
+  formElement.querySelectorAll(this._inputSelector).forEach((inputElement) => {
+  const errorElement = formElement.querySelector(
+  `.${inputElement.name}-error`
+  );
+  inputElement.classList.remove(this._inputErrorClass);
+  errorElement.textContent = "";
+  });
   }
 
   //Метод проверки на валидность строки ввода для отображения/скрытия ошибки
-  _checkInputValidity(inputElement) {
+  _checkInputValidity(formElement, inputElement) {
     if (!inputElement.validity.valid) {
-      this._showInputError(inputElement, inputElement.validationMessage);
+      this._showInputError(
+        formElement,
+        inputElement,
+        inputElement.validationMessage
+      );
     } else {
-      this._hideInputError(inputElement);
+      this._hideInputError(formElement, inputElement);
     }
   }
 
   //Метод установки слушатей на все поля формы
-  _setEventListeners() {
+  _setEventListeners(formElement) {
     const inputList = Array.from(
-      this._formElement.querySelectorAll(this._inputSelector)
+      formElement.querySelectorAll(this._inputSelector)
     );
-    const buttonElement = this._formElement.querySelector(
-      this._submitButtonSelector
-    );
-    this._formElement.addEventListener("reset", () => {
+    const buttonElement = formElement.querySelector(this._submitButtonSelector);
+    formElement.addEventListener("reset", () => {
+      this._disableSubmitButton(buttonElement);
+    });
+    formElement.addEventListener("submit", () => {
       this._disableSubmitButton(buttonElement);
     });
     inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
-        this._checkInputValidity(inputElement);
+        this._checkInputValidity(formElement, inputElement);
         this._toggleSubmitButton(inputList, buttonElement);
       });
     });
@@ -89,6 +96,9 @@ export class FormValidator {
   }
   //Метод активации валидации формы
   enableValidation() {
-    this._setEventListeners();
+    const formList = Array.from(document.querySelectorAll(this._formSelector));
+    formList.forEach((formElement) => {
+      this._setEventListeners(formElement);
+    });
   }
 }

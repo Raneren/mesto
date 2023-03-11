@@ -1,3 +1,6 @@
+import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
+
 const initialCards = [
   {
     name: "Архыз",
@@ -32,7 +35,6 @@ const formSelectors = {
   inputErrorClass: "form__input_type_error",
 };
 
-const cardTemplate = document.querySelector("#element-template").content;
 const cardsContainer = document.querySelector(".elements");
 
 const popupEditButton = document.querySelector(".button_type_edit");
@@ -45,10 +47,10 @@ const cardLinkInput = document.querySelector(".form__input_type_link");
 const popups = document.querySelectorAll(".popup");
 const popupEdit = document.querySelector(".popup_type_edit-profile-info");
 const popupAdd = document.querySelector(".popup_type_add-place-card");
-const popupPhotoView = document.querySelector(".popup_type_photo-viewing");
+export const popupPhotoView = document.querySelector(".popup_type_photo-viewing");
 
-const photoInPopup = popupPhotoView.querySelector(".popup__photo");
-const photoTitleInPopup = popupPhotoView.querySelector(".popup__photo-title");
+export const photoInPopup = popupPhotoView.querySelector(".popup__photo");
+export const photoTitleInPopup = popupPhotoView.querySelector(".popup__photo-title");
 
 const popupEditForm = document.forms.edit_form;
 const popupAddForm = document.forms.add_form;
@@ -57,6 +59,7 @@ const nameInput = document.querySelector(".form__input_type_name");
 const jobInput = document.querySelector(".form__input_type_job");
 const profileName = document.querySelector(".profile__name");
 const profileJob = document.querySelector(".profile__job");
+
 
 //Добавляем 6 карточек из массива
 initialCards.forEach((item) => {
@@ -73,10 +76,11 @@ const popupAddFormValidator = new FormValidator(formSelectors, popupAddForm);
 popupAddFormValidator.enableValidation();
 
 //Функция открытия поп-апа
-function openPopup(popup) {
+ export function openPopup(popup) {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closeOnEscButtton);
 }
+
 //Функция закрытия поп-апа
 function closePopup(popup) {
   popup.classList.remove("popup_opened");

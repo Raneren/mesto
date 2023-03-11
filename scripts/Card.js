@@ -1,5 +1,11 @@
+import {
+  openPopup,
+  popupPhotoView,
+  photoInPopup,
+  photoTitleInPopup,
+} from "./index.js";
 //Создаём класс для карточек
-class Card {
+export class Card {
   constructor(name, link, templateSelector) {
     this._name = name;
     this._link = link;
@@ -30,6 +36,7 @@ class Card {
     photoTitleInPopup.textContent =
       card.querySelector(".element__title").textContent;
   }
+  //Метод установки слушателей на карточку
   _setEventListeners() {
     this._element
       .querySelector(".element__photo")
@@ -49,6 +56,7 @@ class Card {
         this._toggleLike(evt.target);
       });
   }
+  //Метод создания карточки
   generateCard() {
     this._element = this._getTemplate();
     this._element.querySelector(".element__title").textContent = this._name;
