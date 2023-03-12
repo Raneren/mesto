@@ -24,30 +24,26 @@ export class Card {
     item.classList.toggle("button_type_like_active");
   }
   //Метод удаления карточки
-  _deleteCard(item) {
-    const card = item.closest(".element");
-    card.remove();
+  _deleteCard() {
+    this._element.remove();
   }
   //Метод открытия окна для просмотра фото карточки
-  _openPhoto(item) {
+  _openPhoto() {
     openPopup(popupPhotoView);
-    photoInPopup.style.backgroundImage = item.style.backgroundImage;
-    const card = item.closest(".element");
-    photoTitleInPopup.textContent =
-      card.querySelector(".element__title").textContent;
+    photoInPopup.style.backgroundImage =
+      this._elementPhoto.style.backgroundImage;
+    photoTitleInPopup.textContent = this._elementTitle.textContent;
   }
   //Метод установки слушателей на карточку
   _setEventListeners() {
-    this._element
-      .querySelector(".element__photo")
-      .addEventListener("click", (evt) => {
-        this._openPhoto(evt.target);
-      });
+    this._elementPhoto.addEventListener("click", () => {
+      this._openPhoto();
+    });
 
     this._element
       .querySelector(".button_type_delete")
-      .addEventListener("click", (evt) => {
-        this._deleteCard(evt.target);
+      .addEventListener("click", () => {
+        this._deleteCard();
       });
 
     this._element
@@ -59,10 +55,10 @@ export class Card {
   //Метод создания карточки
   generateCard() {
     this._element = this._getTemplate();
-    this._element.querySelector(".element__title").textContent = this._name;
-    this._element.querySelector(
-      ".element__photo"
-    ).style.backgroundImage = `url(${this._link})`;
+    this._elementPhoto = this._element.querySelector(".element__photo");
+    this._elementTitle = this._element.querySelector(".element__title");
+    this._elementTitle.textContent = this._name;
+    this._elementPhoto.style.backgroundImage = `url(${this._link})`;
 
     this._setEventListeners();
 

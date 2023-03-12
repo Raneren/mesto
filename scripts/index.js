@@ -47,10 +47,14 @@ const cardLinkInput = document.querySelector(".form__input_type_link");
 const popups = document.querySelectorAll(".popup");
 const popupEdit = document.querySelector(".popup_type_edit-profile-info");
 const popupAdd = document.querySelector(".popup_type_add-place-card");
-export const popupPhotoView = document.querySelector(".popup_type_photo-viewing");
+export const popupPhotoView = document.querySelector(
+  ".popup_type_photo-viewing"
+);
 
 export const photoInPopup = popupPhotoView.querySelector(".popup__photo");
-export const photoTitleInPopup = popupPhotoView.querySelector(".popup__photo-title");
+export const photoTitleInPopup = popupPhotoView.querySelector(
+  ".popup__photo-title"
+);
 
 const popupEditForm = document.forms.edit_form;
 const popupAddForm = document.forms.add_form;
@@ -60,11 +64,9 @@ const jobInput = document.querySelector(".form__input_type_job");
 const profileName = document.querySelector(".profile__name");
 const profileJob = document.querySelector(".profile__job");
 
-
 //Добавляем 6 карточек из массива
 initialCards.forEach((item) => {
-  const card = new Card(item.name, item.link, "#element-template");
-  const cardElement = card.generateCard();
+  const cardElement = createCard(item);
   renderNewCard(cardElement, cardsContainer);
 });
 
@@ -76,7 +78,7 @@ const popupAddFormValidator = new FormValidator(formSelectors, popupAddForm);
 popupAddFormValidator.enableValidation();
 
 //Функция открытия поп-апа
- export function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closeOnEscButtton);
 }
@@ -110,7 +112,7 @@ function openPopupEdit() {
   openPopup(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  popupEditFormValidator.skipErrorMessages();
+  popupEditFormValidator.resetValidation();
 }
 
 popupEditButton.addEventListener("click", openPopupEdit);
@@ -118,11 +120,16 @@ popupEditButton.addEventListener("click", openPopupEdit);
 function openPopupAdd() {
   openPopup(popupAdd);
   popupAddForm.reset();
-  popupAddFormValidator.skipErrorMessages();
+  popupAddFormValidator.resetValidation();
 }
 
 popupAddButton.addEventListener("click", openPopupAdd);
-
+//Функция создания новой карточки
+function createCard(item) {
+  const card = new Card(item.name, item.link, "#element-template");
+  const cardElement = card.generateCard();
+  return cardElement;
+}
 //Функция добавления новой карточки
 function renderNewCard(card, container) {
   container.prepend(card);
@@ -137,12 +144,8 @@ function handleFormSubmitForEditProfile(evt) {
 //Функция кастомной отправки формы добаления карточки
 function handleFormSubmitForAddNewCard(evt) {
   evt.preventDefault();
-  const card = new Card(
-    cardNameInput.value,
-    cardLinkInput.value,
-    "#element-template"
-  );
-  const cardElement = card.generateCard();
+  const cardOptions = { name: cardNameInput.value, link: cardLinkInput.value };
+  const cardElement = createCard(cardOptions);
   renderNewCard(cardElement, cardsContainer);
   closePopup(popupAdd);
 }

@@ -6,6 +6,13 @@ export class FormValidator {
     this._submitButtonSelector = object.submitButtonSelector;
     this._inactiveButtonClass = object.inactiveButtonClass;
     this._inputErrorClass = object.inputErrorClass;
+
+    this._buttonElement = this._formElement.querySelector(
+      this._submitButtonSelector
+    );
+    this._inputList = Array.from(
+      this._formElement.querySelectorAll(this._inputSelector)
+    );
   }
   //Метод вывода сообщения об ошибке
   _showInputError(inputElement, errorMessage) {
@@ -25,13 +32,12 @@ export class FormValidator {
     errorElement.textContent = "";
   }
 
-  //Метод сброса сообщений об ошибке внутри формы
-  skipErrorMessages() {
-    this._formElement
-      .querySelectorAll(this._inputSelector)
-      .forEach((inputElement) => {
-        this._hideInputError(inputElement);
-      });
+  //Метод сброса ошибок валидации
+  resetValidation() {
+    this._toggleSubmitButton();
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
   }
 
   //Метод проверки на валидность строки ввода для отображения/скрытия ошибки
@@ -45,47 +51,38 @@ export class FormValidator {
 
   //Метод установки слушатей на все поля формы
   _setEventListeners() {
-    const inputList = Array.from(
-      this._formElement.querySelectorAll(this._inputSelector)
-    );
-    const buttonElement = this._formElement.querySelector(
-      this._submitButtonSelector
-    );
-    this._formElement.addEventListener("reset", () => {
-      this._disableSubmitButton(buttonElement);
-    });
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
-        this._toggleSubmitButton(inputList, buttonElement);
+        this._toggleSubmitButton();
       });
     });
   }
 
   //Метод проверки на валидность строки ввода
-  _hasInvalidInput(inputList) {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   }
 
   //Метод переключения активного состояния кнопки отправки
-  _toggleSubmitButton(inputList, buttonElement) {
-    if (this._hasInvalidInput(inputList)) {
-      this._disableSubmitButton(buttonElement);
+  _toggleSubmitButton() {
+    if (this._hasInvalidInput()) {
+      this._disableSubmitButton();
     } else {
-      this._activeSubmitButton(buttonElement);
+      this._activeSubmitButton();
     }
   }
   //Метод отключения кнопки сабмита
-  _disableSubmitButton(buttonElement) {
-    buttonElement.classList.add(this._inactiveButtonClass);
-    buttonElement.disabled = true;
+  _disableSubmitButton() {
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.disabled = true;
   }
   //Метод включения кнопки сабмита
-  _activeSubmitButton(buttonElement) {
-    buttonElement.classList.remove(this._inactiveButtonClass);
-    buttonElement.disabled = false;
+  _activeSubmitButton() {
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
+    this._buttonElement.disabled = false;
   }
   //Метод активации валидации формы
   enableValidation() {
