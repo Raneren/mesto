@@ -1,15 +1,10 @@
-import {
-  openPopup,
-  popupPhotoView,
-  photoInPopup,
-  photoTitleInPopup,
-} from "./index.js";
 //Создаём класс для карточек
-export class Card {
-  constructor(name, link, templateSelector) {
+export default class Card {
+  constructor(name, link, handleCardClick, templateSelector) {
     this._name = name;
     this._link = link;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
   }
   _getTemplate() {
     const cardElement = document
@@ -27,17 +22,10 @@ export class Card {
   _deleteCard() {
     this._element.remove();
   }
-  //Метод открытия окна для просмотра фото карточки
-  _openPhoto() {
-    openPopup(popupPhotoView);
-    photoInPopup.style.backgroundImage =
-      this._elementPhoto.style.backgroundImage;
-    photoTitleInPopup.textContent = this._elementTitle.textContent;
-  }
   //Метод установки слушателей на карточку
   _setEventListeners() {
     this._elementPhoto.addEventListener("click", () => {
-      this._openPhoto();
+      this._handleCardClick(this._name, this._link);
     });
 
     this._element
@@ -65,3 +53,4 @@ export class Card {
     return this._element;
   }
 }
+

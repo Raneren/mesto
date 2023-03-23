@@ -1,5 +1,5 @@
 //Создаём класс валидации формы
-export class FormValidator {
+export default class FormValidator {
   constructor(object, formElement) {
     this._formElement = formElement;
     this._inputSelector = object.inputSelector;
