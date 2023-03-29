@@ -15,8 +15,6 @@ import {
   popupAddForm,
   nameInput,
   jobInput,
-  profileName,
-  profileJob,
 } from "../utils/constants.js";
 
 //Класс для добавления новых карточек
@@ -68,19 +66,13 @@ popupWitchEditForm.setEventListeners();
 
 popupEditButton.addEventListener("click", () => {
   popupWitchEditForm.open();
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
+  ({ name: nameInput.value, job: jobInput.value } = userInfo.getUserInfo());
   popupEditFormValidator.resetValidation();
 });
 //Экземпляр класса для попапа добавления карточки
 const popupWitchAddForm = new PopupWithForm(".popup_type_add-place-card", {
-  formSubmitCallback: ({ place, link }) => {
-    cardsRender.addItem(
-      createCard({
-        name: place,
-        link: link,
-      })
-    );
+  formSubmitCallback: (cardData) => {
+    cardsRender.addItem(createCard(cardData));
   },
 });
 popupWitchAddForm.setEventListeners();

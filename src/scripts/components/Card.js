@@ -7,12 +7,10 @@ export default class Card {
     this._handleCardClick = handleCardClick;
   }
   _getTemplate() {
-    const cardElement = document
-      .querySelector(this._templateSelector)
-      .content.querySelector(".element")
-      .cloneNode(true);
-
-    return cardElement;
+    return document
+        .querySelector(this._templateSelector)
+        .content.querySelector(".element")
+        .cloneNode(true);
   }
   //Метод добавления/убирания лайка карточки
   _toggleLike(item) {

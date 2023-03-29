@@ -39,5 +39,3 @@ export const popupAddForm = document.forms.add_form;
 
 export const nameInput = document.querySelector(".form__input_type_name");
 export const jobInput = document.querySelector(".form__input_type_job");
-export const profileName = document.querySelector(".profile__name");
-export const profileJob = document.querySelector(".profile__job");

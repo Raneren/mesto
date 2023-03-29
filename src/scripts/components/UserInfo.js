@@ -7,12 +7,11 @@ export default class UserInfo {
 
   //Метод получения информации из профиля
   getUserInfo() {
-    this._userData = {
+    return {
       name: this._profileName.textContent,
       job: this._profileJob.textContent,
     };
-    return this._userData;
-  }
+  } 
 
   //Метод добавления информации в профиль из формы
   setUserInfo(data) {
