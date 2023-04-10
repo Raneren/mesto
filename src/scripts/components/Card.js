@@ -1,16 +1,25 @@
 //Создаём класс для карточек
 export default class Card {
-  constructor(name, link, handleCardClick, templateSelector) {
+  constructor(
+    name,
+    link,
+    likes,
+    handleCardClick,
+    handleCardDelete,
+    templateSelector
+  ) {
     this._name = name;
     this._link = link;
+    this._likes = likes;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._handleCardDelete = handleCardDelete;
   }
   _getTemplate() {
     return document
-        .querySelector(this._templateSelector)
-        .content.querySelector(".element")
-        .cloneNode(true);
+      .querySelector(this._templateSelector)
+      .content.querySelector(".element")
+      .cloneNode(true);
   }
   //Метод добавления/убирания лайка карточки
   _toggleLike(item) {
@@ -29,7 +38,10 @@ export default class Card {
     this._element
       .querySelector(".button_type_delete")
       .addEventListener("click", () => {
-        this._deleteCard();
+        this._handleCardDelete();
+        document.addEventListener("submit", (evt) => {
+          this._deleteCard();
+        });
       });
 
     this._element
@@ -43,12 +55,15 @@ export default class Card {
     this._element = this._getTemplate();
     this._elementPhoto = this._element.querySelector(".element__photo");
     this._elementTitle = this._element.querySelector(".element__title");
+    this._elementLikesCounter = this._element.querySelector(
+      ".element__likes-counter"
+    );
     this._elementTitle.textContent = this._name;
     this._elementPhoto.style.backgroundImage = `url(${this._link})`;
+    this._elementLikesCounter.textContent = this._likes.length;
 
     this._setEventListeners();
 
     return this._element;
   }
 }
-

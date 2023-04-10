@@ -1,21 +1,21 @@
 //Создаём класс для управлениz отображением информации о пользователе на странице
 export default class UserInfo {
-  constructor({ nameSelector, jobSelector }) {
+  constructor({ nameSelector, aboutSelector }) {
     this._profileName = document.querySelector(nameSelector);
-    this._profileJob = document.querySelector(jobSelector);
+    this._profileAbout = document.querySelector(aboutSelector);
   }
 
   //Метод получения информации из профиля
   getUserInfo() {
     return {
       name: this._profileName.textContent,
-      job: this._profileJob.textContent,
+      about: this._profileAbout.textContent,
     };
   } 
 
   //Метод добавления информации в профиль из формы
   setUserInfo(data) {
     this._profileName.textContent = data.name;
-    this._profileJob.textContent = data.job;
+    this._profileAbout.textContent = data.about;
   }
 }
