@@ -20,6 +20,9 @@ import {
 } from "../utils/constants.js";
 import { data } from "autoprefixer";
 
+//Переменная для хранения id пользователя
+let userId;
+
 //Класс для работы с Api
 const api = new Api({
   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-63",
@@ -31,24 +34,15 @@ const api = new Api({
 //Класс для добавления новых карточек
 const cardsRender = new Section(
   {
-    renderer: (cardElement, userId) => {
-      cardsRender.addItem(createCard(cardElement, userId));
+    renderer: (cardElement) => {
+      cardsRender.reverseAddItem(createCard(cardElement));
     },
   },
   ".elements"
 );
-//Экземпляр класса для попапа удаления карточки
-const popupDeleteCard = new PopupDeleteCard(".popup_type_delete-card", {
-  formSubmitCallback: (cardId) => {
-    api.deleteCard(cardId).catch((err) => {
-      console.log(err);
-    });
-  }
-});
-popupDeleteCard.setEventListeners();
 
 //Функция создания карточки
-function createCard(item, userId) {
+function createCard(item) {
   const card = new Card(
     {
       data: item,
@@ -56,18 +50,24 @@ function createCard(item, userId) {
       handleCardClick: () => {
         popupWithPhoto.open(item.name, item.link);
       },
-      handleCardDelete: (cardId) => {
-        popupDeleteCard.open(cardId);
+      handleCardDelete: (card) => {
+        popupDeleteCard.open(card);
       },
       handleCardLike: (cardId) => {
-        api.addLike(cardId).then(data => card.renderLikes(data)).catch((err) => {
-          console.log(err);
-        });
+        api
+          .addLike(cardId)
+          .then((data) => card.renderLikes(data))
+          .catch((err) => {
+            console.log(err);
+          });
       },
       handleCardDeleteLike: (cardId) => {
-        api.deleteLike(cardId).then(data => card.renderLikes(data)).catch((err) => {
-          console.log(err);
-        });
+        api
+          .deleteLike(cardId)
+          .then((data) => card.renderLikes(data))
+          .catch((err) => {
+            console.log(err);
+          });
       },
     },
     "#element-template"
@@ -78,12 +78,12 @@ function createCard(item, userId) {
 //Добавляем данные пользователя и начальные карточки с сервера
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, cardsData]) => {
-    const userId = userData._id;
+    userId = userData._id;
     userInfo.setUserInfo(userData);
     userInfo.setUserAvatar(userData);
-    cardsRender.renderItems(cardsData, userId)
+    cardsRender.renderItems(cardsData);
   })
-  .catch((err) => console.log(err))
+  .catch((err) => console.log(err));
 
 //Активация проверки на валидацию
 const popupEditFormValidator = new FormValidator(formSelectors, popupEditForm);
@@ -105,15 +105,36 @@ const userInfo = new UserInfo({
   avatarSelector: ".profile__avatar",
 });
 
+//Экземпляр класса для попапа удаления карточки
+const popupDeleteCard = new PopupDeleteCard(".popup_type_delete-card", {
+  formSubmitCallback: (card) => {
+    api
+      .deleteCardOnServer(card._cardId)
+      .then(() => {
+        card.deleteCard();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+});
+popupDeleteCard.setEventListeners();
+
 //Экземпляр класса для попапа редактирования аватара
 const popupWitchAvatarForm = new PopupWithForm(".popup_type_edit-avatar", {
   formSubmitCallback: (data) => {
     popupWitchAvatarForm.renderLoading(true, "Сохранение...");
-    api.setUserAvatar(data).then((data) => {
-      userInfo.setUserAvatar(data);
-    }).catch((err) => {
-      console.log(err);
-    })
+    api
+      .setUserAvatar(data)
+      .then((data) => {
+        userInfo.setUserAvatar(data);
+      })
+      .then(() => {
+        popupWitchAvatarForm.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
         popupWitchAvatarForm.renderLoading(false);
       });
@@ -129,11 +150,17 @@ document.querySelector(".profile__edit-icon").addEventListener("click", () => {
 const popupWitchEditForm = new PopupWithForm(".popup_type_edit-profile-info", {
   formSubmitCallback: (data) => {
     popupWitchEditForm.renderLoading(true, "Сохранение...");
-    api.setUserInfo(data).then((data) => {
-      userInfo.setUserInfo(data);
-    }).catch((err) => {
-      console.log(err);
-    })
+    api
+      .setUserInfo(data)
+      .then((data) => {
+        userInfo.setUserInfo(data);
+      })
+      .then(() => {
+        popupWitchEditForm.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
         popupWitchEditForm.renderLoading(false);
       });
@@ -150,13 +177,19 @@ popupEditButton.addEventListener("click", () => {
 const popupWitchAddForm = new PopupWithForm(".popup_type_add-place-card", {
   formSubmitCallback: (cardData) => {
     popupWitchAddForm.renderLoading(true, "Сохранение...");
-    api.addNewCard(cardData).then((cardData) => {
-      cardsRender.addItem(createCard(cardData));
-    }).catch((err) => {
-      console.log(err);
-    })
+    api
+      .addNewCard(cardData)
+      .then((cardData) => {
+        cardsRender.addItem(createCard(cardData));
+      })
+      .then(() => {
+        popupWitchAddForm.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
-        popupWitchAddForm.renderLoading(false)
+        popupWitchAddForm.renderLoading(false);
       });
   },
 });

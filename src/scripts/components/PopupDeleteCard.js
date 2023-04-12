@@ -6,17 +6,17 @@ export default class PopupDeleteCard extends Popup {
     this._formSubmitCallback = formSubmitCallback;
     this._form = this._popup.querySelector(".form");
   }
-  //Помимо открывания получаем Id карточки
-  open(cardId) {
+  //Помимо открывания получаем и саму карточку
+  open(card) {
     super.open();
-    this._cardId = cardId;
+    this._card = card;
   }
   //Устанавливаем слушатели
   setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      this._formSubmitCallback(this._cardId);
+      this._formSubmitCallback(this._card);
       this.close();
     });
   }

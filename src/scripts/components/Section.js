@@ -9,10 +9,14 @@ export default class Section {
   addItem(element) {
     this._container.prepend(element);
   }
+  //Метод добавления элемента в контейнер в обратном порядке
+  reverseAddItem(element) {
+    this._container.append(element);
+  }
   //Метод для отрисовки элементов
-  renderItems(items, userId) {
+  renderItems(items) {
     items.forEach((item) => {
-      this._renderer(item, userId);
+      this._renderer(item);
     });
   }
 }

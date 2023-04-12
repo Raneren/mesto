@@ -68,7 +68,7 @@ export default class Api {
     }).then((res) => this._checkResponse(res));
   }
   //Метод удаления карточки с сервера
-  deleteCard(cardId) {
+  deleteCardOnServer(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
       headers: {

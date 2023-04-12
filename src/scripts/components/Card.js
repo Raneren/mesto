@@ -54,7 +54,7 @@ export default class Card {
   }
 
   //Метод удаления карточки
-  _deleteCard() {
+  deleteCard() {
     this._element.remove();
   }
   //Метод установки слушателей на карточку
@@ -65,10 +65,7 @@ export default class Card {
 
     this._deleteButton
       .addEventListener("click", () => {
-        this._handleCardDelete(this._cardId);
-        document.addEventListener("submit", () => {
-          this._deleteCard();
-        });
+        this._handleCardDelete(this);
       });
 
     this._likeButton.addEventListener("click", () => {
