@@ -16,11 +16,14 @@
     </header>
     <main class="content">
       <section class="profile">
-        <img
-          class="profile__avatar"
-          src="<%=require('./images/avatar.jpg')%>"
-          alt="Аватар профиля"
-        />
+        <div class="profile__avatar-container">
+          <img
+            class="profile__avatar"
+            src=""
+            alt="Аватар профиля"
+          />
+          <div class="profile__edit-icon"></div>
+        </div>
         <div class="profile__info">
           <h1 class="profile__name"></h1>
           <button type="button" class="button button_type_edit"></button>
@@ -42,7 +45,7 @@
           novalidate
         >
           <h2 class="form__title">Редактировать профиль</h2>
-          <div class="form__field">
+          <fieldset class="form__field">
             <input
               class="form__input form__input_type_name"
               type="text"
@@ -53,7 +56,7 @@
               required
             />
             <span class="form__input-error name-error"></span>
-          </div>
+          </fieldset>
           <fieldset class="form__field">
             <input
               class="form__input form__input_type_about"
@@ -127,6 +130,32 @@
         >
           <h2 class="form__title">Вы уверены?</h2>
           <button type="submit" class="button button_type_submit">Да</button>
+        </form>
+        <button type="button" class="button button_type_close"></button>
+      </div>
+    </div>
+    <div class="popup popup_type_edit-avatar">
+      <div class="popup__container">
+        <form
+          class="form form_type_edit-avatar"
+          name="avatar_form"
+          method="post"
+          novalidate
+        >
+          <h2 class="form__title">Обновить аватар</h2>
+          <fieldset class="form__field">
+            <input
+              class="form__input form__input_type_link"
+              type="url"
+              placeholder="Ссылка на картинку"
+              name="avatar"
+              required
+            />
+            <span class="form__input-error avatar-error"></span>
+          </fieldset>
+          <button type="submit" class="button button_type_submit">
+            Сохранить
+          </button>
         </form>
         <button type="button" class="button button_type_close"></button>
       </div>

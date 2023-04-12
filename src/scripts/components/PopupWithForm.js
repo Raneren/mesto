@@ -30,4 +30,14 @@ export default class PopupWithForm extends Popup {
     super.close();
     this._form.reset();
   }
+  //Метод смены надписи внутки кнопок сабмита
+  renderLoading(isLoading, text) {
+    this._buttonSubmit = this._form.querySelector(".button_type_submit");
+    if (isLoading) {
+      this.defaulText = this._buttonSubmit.textContent;
+      this._buttonSubmit.textContent = text;
+    } else {
+      this._buttonSubmit.textContent = this.defaulText;
+    }
+  }
 }

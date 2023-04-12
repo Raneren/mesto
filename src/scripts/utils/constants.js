@@ -9,6 +9,7 @@ export const popupAddButton = document.querySelector(".button_type_add");
 
 export const popupEditForm = document.forms.edit_form;
 export const popupAddForm = document.forms.add_form;
+export const popupAvatarForm = document.forms.avatar_form;
 
 export const nameInput = document.querySelector(".form__input_type_name");
 export const aboutInput = document.querySelector(".form__input_type_about");
