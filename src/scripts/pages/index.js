@@ -108,13 +108,20 @@ const userInfo = new UserInfo({
 //Экземпляр класса для попапа удаления карточки
 const popupDeleteCard = new PopupDeleteCard(".popup_type_delete-card", {
   formSubmitCallback: (card) => {
+    popupDeleteCard.renderLoading(true, "Удаление...", ".button_type_submit");
     api
       .deleteCardOnServer(card._cardId)
       .then(() => {
         card.deleteCard();
       })
+      .then(() => {
+        popupDeleteCard.close();
+      })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        popupDeleteCard.renderLoading(false);
       });
   },
 });
@@ -123,7 +130,11 @@ popupDeleteCard.setEventListeners();
 //Экземпляр класса для попапа редактирования аватара
 const popupWitchAvatarForm = new PopupWithForm(".popup_type_edit-avatar", {
   formSubmitCallback: (data) => {
-    popupWitchAvatarForm.renderLoading(true, "Сохранение...");
+    popupWitchAvatarForm.renderLoading(
+      true,
+      "Сохранение...",
+      ".button_type_submit"
+    );
     api
       .setUserAvatar(data)
       .then((data) => {
@@ -149,7 +160,11 @@ document.querySelector(".profile__edit-icon").addEventListener("click", () => {
 //Экземпляр класса для попапа редактирования профиля
 const popupWitchEditForm = new PopupWithForm(".popup_type_edit-profile-info", {
   formSubmitCallback: (data) => {
-    popupWitchEditForm.renderLoading(true, "Сохранение...");
+    popupWitchEditForm.renderLoading(
+      true,
+      "Сохранение...",
+      ".button_type_submit"
+    );
     api
       .setUserInfo(data)
       .then((data) => {
@@ -176,7 +191,11 @@ popupEditButton.addEventListener("click", () => {
 //Экземпляр класса для попапа добавления карточки
 const popupWitchAddForm = new PopupWithForm(".popup_type_add-place-card", {
   formSubmitCallback: (cardData) => {
-    popupWitchAddForm.renderLoading(true, "Сохранение...");
+    popupWitchAddForm.renderLoading(
+      true,
+      "Сохранение...",
+      ".button_type_submit"
+    );
     api
       .addNewCard(cardData)
       .then((cardData) => {

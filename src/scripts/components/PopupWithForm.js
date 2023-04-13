@@ -7,7 +7,6 @@ export default class PopupWithForm extends Popup {
 
     this._form = this._popup.querySelector(".form");
     this._inputList = Array.from(this._form.querySelectorAll(".form__input"));
-    this._buttonSubmit = this._form.querySelector(".button_type_submit");
   }
   //Метод сбора данных полей формы
   _getInputValues() {
@@ -29,14 +28,5 @@ export default class PopupWithForm extends Popup {
   close() {
     super.close();
     this._form.reset();
-  }
-  //Метод смены надписи внутки кнопок сабмита
-  renderLoading(isLoading, text) {
-    if (isLoading) {
-      this.defaulText = this._buttonSubmit.textContent;
-      this._buttonSubmit.textContent = text;
-    } else {
-      this._buttonSubmit.textContent = this.defaulText;
-    }
   }
 }

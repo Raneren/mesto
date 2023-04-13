@@ -14,7 +14,7 @@ export default class Popup {
     document.removeEventListener("keydown", this._handleEscClose);
   }
   //Метод на закрывание попапа кнопкой Esc
-  _handleEscClose = (evt)=>{
+  _handleEscClose = (evt) => {
     if (evt.key === "Escape") {
       this.close();
     }
@@ -29,5 +29,15 @@ export default class Popup {
         this.close();
       }
     });
+  }
+  //Метод смены надписи внутки кнопок сабмита
+  renderLoading(isLoading, text, buttonSubmitSelector) {
+    this._buttonSubmit = this._form.querySelector(buttonSubmitSelector);
+    if (isLoading) {
+      this.defaulText = this._buttonSubmit.textContent;
+      this._buttonSubmit.textContent = text;
+    } else {
+      this._buttonSubmit.textContent = this.defaulText;
+    }
   }
 }
